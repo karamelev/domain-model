@@ -1,11 +1,13 @@
 package com.epam.tat.domainmodel.giftbox;
 
 import com.epam.tat.domainmodel.candies.Candy;
+import com.epam.tat.domainmodel.candies.CandyBase;
 import com.epam.tat.domainmodel.util.Finding;
 import com.epam.tat.domainmodel.util.Sorting;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class Description:
@@ -14,7 +16,7 @@ import java.util.List;
  * finding candies by parameters.
  * <p>
  */
-public class GiftBox {
+public class GiftBox implements Finding,Sorting{
     /**
      * No actions are required for class variable candiesList.
      */
@@ -26,6 +28,7 @@ public class GiftBox {
     public GiftBox() {
         candiesList = new ArrayList<Candy>();
     }
+
 
     /**
      * No actions are required for method addCandy().
@@ -40,7 +43,9 @@ public class GiftBox {
      */
     @Override
     public List<Candy> sortCandiesByNameAsc() {
-        throw new UnsupportedOperationException("You need to implement this method");
+        candiesList.sort(Comparator.comparing(Candy::getName));
+        return candiesList;
+//        throw new UnsupportedOperationException("You need to implement this method");
     }
 
     /**
@@ -49,7 +54,9 @@ public class GiftBox {
      */
     @Override
     public List<Candy> sortCandiesByWeightAsc() {
-        throw new UnsupportedOperationException("You need to implement this method");
+        candiesList.sort(Comparator.comparing(Candy::getWeight));
+        return candiesList;
+//        throw new UnsupportedOperationException("You need to implement this method");
     }
 
     /**
@@ -58,7 +65,19 @@ public class GiftBox {
      */
     @Override
     public List<Candy> findCandiesByNameStartedWith(char candyNameFirstLetter) {
-        throw new UnsupportedOperationException("You need to implement this method");
+
+//        String regex = "^candyNameFirstLetter";
+        List <Candy> candies = new ArrayList<Candy>();
+        Pattern pattern = Pattern.compile("^" + candyNameFirstLetter);
+        for (int i = 0; i < candiesList.size(); i++) {
+//            Matcher matcher = pattern.matcher(candiesList.get(i).getName())
+            if (pattern.matcher(candiesList.get(i).getName()).find()) {
+                candies.add(candiesList.get(i));
+            }
+        }
+//        Matcher matcher = pattern.find(candiesList.toString());
+//        return candiesList;
+        return candies;
     }
 
     /**
@@ -67,6 +86,19 @@ public class GiftBox {
      */
     @Override
     public List<Candy> findCandiesByWeightInRange(int weightFrom, int weightTo) {
-        throw new UnsupportedOperationException("You need to implement this method");
+        candiesList.sort(Comparator.comparing(Candy::getWeight));
+        List <Candy> candies = new ArrayList<Candy>();
+        for (int i = 0; i < candiesList.size(); i++) {
+            if (candiesList.get(i).getWeight() >= weightFrom && candiesList.get(i).getWeight() <= weightTo) {
+                candies.add(candiesList.get(i));
+            }
+        }
+//        int fromIndex = candiesList.indexOf(weightFrom);
+//        int toIndex = candiesList.indexOf(weightTo);
+//        candiesList.subList(fromIndex,toIndex);
+//        return candiesList;
+        return candies;
+
+//        throw new UnsupportedOperationException("You need to implement this method");
     }
 }
