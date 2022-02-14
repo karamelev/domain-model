@@ -1,4 +1,4 @@
-package com.epam.tat.domainmodel;
+package com.epam.tat.domainmodel.candies;
 
 /**
  * Class Description:
